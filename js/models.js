@@ -31,7 +31,7 @@ class Story {
 
 
 /******************************************************************************
- * List of Story instances: used by UI to show story lists in DOM.
+ *ces: used by UI to show story lists in DOM.
  */
 
 class StoryList {
@@ -76,10 +76,23 @@ class StoryList {
   async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
 
+    //token required
     //Make a story instance
+    //let token = window.localStorage.getItem('token');
+    console.log('user', user, 'newStory', newStory);
+    const response = await axios({
+      url : `${BASE_URL}/stories`,
+      method: "POST",
+      data: { 
+        token: user.loginToken, 
+        story: { title: newStory.title, author: newStory.author, url: newStory.url } 
+      } 
+    }); 
+    const story = response.data.story;
+    const createdStory = new Story(story.username, story.title, story.author, story.url);
+    this.stories.unshift(createdStory);
 
-    const newStory = new Story(storyId, newStory.title, newStory.author, newStory.url, user.username, user.createdAt)
-
+    return createdStory;
 
     // constructor({ storyId, title, author, url, username, createdAt }) {
     //   this.storyId = storyId;
@@ -91,19 +104,7 @@ class StoryList {
     // }
 
 
-
-
-
-
     //Add to story list
-
-
-
-
-
-
-
-
 
 
 

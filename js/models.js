@@ -23,11 +23,11 @@ class Story {
 
   /** Parses hostname out of URL and returns it. */
 
-  getHostName(url) {
+  getHostName() {
     // UNIMPLEMENTED: complete this function!
-    let newURL = new URL(url);
-    let hostName = {hostname: }
-
+    
+    let newURL = new URL(this.url);
+    
 
     return newURL.hostname;
   }
@@ -95,9 +95,11 @@ class StoryList {
         story: { title: newStory.title, author: newStory.author, url: newStory.url } 
       } 
     }); 
+    console.log('response',response)
     const story = response.data.story;
     //Why do we not pass the storyId or createdAt in?
     const createdStory = new Story(story.username, story.title, story.author, story.url);
+    console.log('createdStory', createdStory)
     this.stories.unshift(createdStory);
 
     return createdStory;

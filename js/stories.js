@@ -59,12 +59,12 @@ async function submitNewStory(evt) {
   evt.preventDefault();
   console.log('submitNewStory');
 
-  const $storyAuthor = $('#create-author').val();
-  const $storyTitle = $('#create-title').val();
-  const $storyURL = $('#create-url').val();
+  const storyAuthor = $('#create-author').val();
+  const storyTitle = $('#create-title').val();
+  const storyURL = $('#create-url').val();
 
   const storyDesriptionsAndValues =
-    { title: $storyTitle, author: $storyAuthor, url: $storyURL };
+    { title: storyTitle, author: storyAuthor, url: storyURL };
 
   const createdStory =
     await storyList.addStory(currentUser, storyDesriptionsAndValues);

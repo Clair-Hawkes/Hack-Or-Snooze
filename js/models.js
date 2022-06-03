@@ -24,12 +24,9 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    // UNIMPLEMENTED: complete this function!
-    
     let newURL = new URL(this.url);
-    
-
-    return newURL.hostname;
+    //return newURL.hostname;
+    return newURL.host;
   }
 }
 
@@ -76,47 +73,27 @@ class StoryList {
    *
    * Returns the new Story instance
    */
-
   async addStory(user, newStory) {
     console.log('addStory');
-    console.log('user', user)
-    console.log('newStory', newStory)
-    // UNIMPLEMENTED: complete this function!
+    console.log('user', user);
+    console.log('newStory', newStory);
 
-    //token required
-    //Make a story instance
-    //let token = window.localStorage.getItem('token');
-    
     const response = await axios({
-      url : `${BASE_URL}/stories`,
+      url: `${BASE_URL}/stories`,
       method: "POST",
-      data: { 
-        token: user.loginToken, 
-        story: { title: newStory.title, author: newStory.author, url: newStory.url } 
-      } 
-    }); 
-    console.log('response',response)
-    const story = response.data.story;
-    //Why do we not pass the storyId or createdAt in?
-    const createdStory = new Story(story.username, story.title, story.author, story.url);
-    console.log('createdStory', createdStory)
-    this.stories.unshift(createdStory);
+      data: {
+        token: user.loginToken,
+        story: { title: newStory.title, author: newStory.author, url: newStory.url }
+      }
+    });
 
-    return createdStory;
+    const storyData = response.data.story;
+    console.log('storyData = ', storyData);
 
-    // constructor({ storyId, title, author, url, username, createdAt }) {
-    //   this.storyId = storyId;
-    //   this.title = title;
-    //   this.author = author;
-    //   this.url = url;
-    //   this.username = username;
-    //   this.createdAt = createdAt;
-    // }
+    const storyInstance = new Story(storyData);
+    this.stories.unshift(storyInstance);
 
-
-    //Add to story list
-
-
+    return storyInstance;
 
   }
 }
@@ -133,13 +110,13 @@ class User {
    */
 
   constructor({
-                username,
-                name,
-                createdAt,
-                favorites = [],
-                ownStories = []
-              },
-              token) {
+    username,
+    name,
+    createdAt,
+    favorites = [],
+    ownStories = []
+  },
+    token) {
     this.username = username;
     this.name = name;
     this.createdAt = createdAt;

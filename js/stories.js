@@ -50,3 +50,25 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+
+/**when users submit form, collet form data, calls .addStory(), add new story to page */
+
+function submitNewStory() {
+  console.log('submitNewStory');
+const $storyAuthor = $('#create-author').val();
+const $storyTitle = $('#create-title').val();
+const $storyURL = $('#create-url').val();
+
+const storyDesriptionsAndValues = {title : $storyTitle, author : $storyAuthor, url : $storyURL}
+
+storyList.addStory(currentUser, storyDesriptionsAndValues);
+$('#submit-form').hide();
+
+}
+
+$('#submit-form').on('submit', function (evt) {
+  evt.preventDefault();
+  submitNewStory();
+  putStoriesOnPage();
+})
+

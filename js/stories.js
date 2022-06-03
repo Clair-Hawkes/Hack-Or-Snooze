@@ -55,7 +55,8 @@ function putStoriesOnPage() {
  * Call .addStory().
  * Add new story to page */
 
-async function submitNewStory() {
+async function submitNewStory(evt) {
+  evt.preventDefault();
   console.log('submitNewStory');
 
   const $storyAuthor = $('#create-author').val();
@@ -76,8 +77,5 @@ async function submitNewStory() {
   $allStoriesList.prepend($story);
 }
 
-$('#submit-form').on('submit', function (evt) {
-  evt.preventDefault();
-  submitNewStory();
-});
+$('#submit-form').on('submit', submitNewStory);
 

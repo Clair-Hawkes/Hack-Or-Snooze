@@ -81,63 +81,54 @@ async function submitNewStory(evt) {
 
 $('#submit-form').on('submit', submitNewStory);
 
-/**this method will add a story to a users favorites array */
-//check if story is NOT in favorites, run function (else run remove function)
-//toggle star class='filled'
-async function addFavorites(evt) {
-  console.log("evt",evt)
-  console.log('evtTarget', $(evt.target)[0])
-  const storyId = $(evt.target).closest('li').attr('id')
-  console.log('storyId', storyId)
-  if($(evt.target).hasClass("far fa-star")) {
-   const response = await axios({
-     url:`${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
-     method: "POST",
-     data: {token: currentUser.loginToken}
-   })
-   console.log(response)
-
-   $(evt.target).removeClass("far fa-star");
-   $(evt.target).addClass("fas fa-star");
-
-  } else if ($(evt.target).hasClass("fas fa-star")){
-    _thisMethod();
-  }
 
 
+/**addFavorites will post a story to a users favorites via API
+ * Or will DELETE a story from users favorites via API
+ * Will update star symbol of story id post.
+ */
+async function addFavorite(evt) {
+  console.log("evt", evt);
 
-  /**this method will remove a story from a users favorites array */
-  async function _thisMethod(){
+  const storyId = $(evt.target).closest('li').attr('id');
+  console.log('storyId', storyId);
+
+  if ($(evt.target).hasClass("far fa-star")) {
     const response = await axios({
-      url:`${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
-      method: "DELETE",
-      data: {token: currentUser.loginToken}
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+      method: "POST",
+      data: { token: currentUser.loginToken }
     });
-    console.log(response)
+    console.log(response);
 
-   $(evt.target).removeClass("fas fa-star");
-   $(evt.target).addClass("far fa-star");
+    $(evt.target).removeClass("far fa-star");
+    $(evt.target).addClass("fas fa-star");
+
+  } else if ($(evt.target).hasClass("fas fa-star")) {
+    _deleteFavorite();
   }
 
+  /**deleteFavorite will delete a story from a users favorites via API.
+ * Will update star symbol of story id post.
+ */
+  async function _deleteFavorite() {
+    console.log('deleteFavorite');
 
-  // static async login(username, password) {
-  //   const response = await axios({
-  //     url: `${BASE_URL}/login`,
-  //     method: "POST",
-  //     data: { user: { username, password } },
-  //   });
+    const response = await axios({
+      url: `${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+      method: "DELETE",
+      data: { token: currentUser.loginToken }
+    });
+    console.log(response);
 
-
-  //console.log(evt.tar)
+    $(evt.target).removeClass("fas fa-star");
+    $(evt.target).addClass("far fa-star");
+  }
 }
 
-$('#all-stories-list').on('click', addFavorites)
 
+$('#all-stories-list').on('click', addFavorite);
 
+// $('#all-stories-list').on('click', currentUser.addFavorites.bind(currentUser));
 
-
-
-/**this method will remove a story from a users favorites array */
-//toggle star class='unfilled'
-//<i class="fas fa-star"></i> filled
 

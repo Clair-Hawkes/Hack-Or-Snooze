@@ -213,4 +213,53 @@ class User {
       return null;
     }
   }
+
+  /**this method will add a story to a users favorites array */
+//check if story is NOT in favorites, run function (else run remove function)
+//toggle star class='filled'
+async addFavorites(evt) {
+  console.log("evt",evt)
+  console.log('evtTarget', $(evt.target)[0])
+  const storyId = $(evt.target).closest('li').attr('id')
+  console.log('storyId', storyId)
+  if($(evt.target).hasClass("far fa-star")) {
+   const response = await axios({
+     url:`${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+     method: "POST",
+     data: {token: currentUser.loginToken}
+   })
+   console.log(response)
+
+   $(evt.target).removeClass("far fa-star");
+   $(evt.target).addClass("fas fa-star");
+
+  } else if ($(evt.target).hasClass("fas fa-star")){
+    _thisMethod();
+  }
+
+
+
+  /**this method will remove a story from a users favorites array */
+  async function _thisMethod(){
+    const response = await axios({
+      url:`${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+      method: "DELETE",
+      data: {token: currentUser.loginToken}
+    });
+    console.log(response)
+
+   $(evt.target).removeClass("fas fa-star");
+   $(evt.target).addClass("far fa-star");
+  }
+}
+
+
+
+
+
+
+
+
+
+
 }

@@ -96,8 +96,29 @@ async function addFavorites(evt) {
      data: {token: currentUser.loginToken}
    })
    console.log(response)
+
+   $(evt.target).removeClass("far fa-star");
+   $(evt.target).addClass("fas fa-star");
+
+  } else if ($(evt.target).hasClass("fas fa-star")){
+    _thisMethod();
   }
-  
+
+
+
+  /**this method will remove a story from a users favorites array */
+  async function _thisMethod(){
+    const response = await axios({
+      url:`${BASE_URL}/users/${currentUser.username}/favorites/${storyId}`,
+      method: "DELETE",
+      data: {token: currentUser.loginToken}
+    });
+    console.log(response)
+
+   $(evt.target).removeClass("fas fa-star");
+   $(evt.target).addClass("far fa-star");
+  }
+
 
   // static async login(username, password) {
   //   const response = await axios({
@@ -106,13 +127,17 @@ async function addFavorites(evt) {
   //     data: { user: { username, password } },
   //   });
 
-  $(evt.target).removeClass("far fa-star");
-  $(evt.target).addClass("fas fa-star");
+
   //console.log(evt.tar)
-} 
+}
 
 $('#all-stories-list').on('click', addFavorites)
+
+
+
+
 
 /**this method will remove a story from a users favorites array */
 //toggle star class='unfilled'
 //<i class="fas fa-star"></i> filled
+

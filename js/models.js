@@ -23,9 +23,13 @@ class Story {
 
   /** Parses hostname out of URL and returns it. */
 
-  getHostName() {
+  getHostName(url) {
     // UNIMPLEMENTED: complete this function!
-    return "hostname.com";
+    let newURL = new URL(url);
+    let hostName = {hostname: }
+
+
+    return newURL.hostname;
   }
 }
 
@@ -74,12 +78,15 @@ class StoryList {
    */
 
   async addStory(user, newStory) {
+    console.log('addStory');
+    console.log('user', user)
+    console.log('newStory', newStory)
     // UNIMPLEMENTED: complete this function!
 
     //token required
     //Make a story instance
     //let token = window.localStorage.getItem('token');
-    console.log('user', user, 'newStory', newStory);
+    
     const response = await axios({
       url : `${BASE_URL}/stories`,
       method: "POST",
@@ -89,6 +96,7 @@ class StoryList {
       } 
     }); 
     const story = response.data.story;
+    //Why do we not pass the storyId or createdAt in?
     const createdStory = new Story(story.username, story.title, story.author, story.url);
     this.stories.unshift(createdStory);
 
